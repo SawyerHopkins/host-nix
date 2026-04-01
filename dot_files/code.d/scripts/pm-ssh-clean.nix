@@ -1,6 +1,6 @@
 { pkgs }:
 
-pkgs.writeShellScriptBin "pm-clean-ssh" ''
+pkgs.writeShellScriptBin "pm-ssh-clean" ''
   sock="''${1:-/tmp/podman-ssh.sock}"
   port=$(${pkgs.podman}/bin/podman machine inspect --format '{{.SSHConfig.Port}}')
   user=$(${pkgs.podman}/bin/podman machine inspect --format '{{.SSHConfig.RemoteUsername}}')

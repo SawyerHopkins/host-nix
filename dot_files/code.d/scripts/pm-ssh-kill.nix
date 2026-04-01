@@ -1,6 +1,6 @@
 { pkgs }:
 
-pkgs.writeShellScriptBin "pm-kill-ssh" ''
+pkgs.writeShellScriptBin "pm-ssh-kill" ''
   sock="''${1:-/tmp/podman-ssh.sock}"
 
   if pkill -f "ssh.*-R $sock"; then
