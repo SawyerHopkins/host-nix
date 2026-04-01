@@ -18,8 +18,23 @@ pkgs.writeShellScriptBin "pm-up" ''
   else
     echo "Creating container: $name"
     $podman build -t pm-dev:latest https://github.com/SawyerHopkins/podman-ts-dev.git
+
+    port_args=""
+    if [ -f .pm-ports ]; then
+      while IFS= read -r line || [ -n "$line" ]; do
+        line=$(echo "$line" | xargs)
+        [ -z "$line" ] && continue
+        case "$line" in
+          *:*) port_args="$port_args -p $line" ;;
+          *)   port_args="$port_args -p $line:$line" ;;
+        esac
+      done < .pm-ports
+    fi
+
     $podman run -dit \
       --name "$name" \
+      --userns=keep-id:uid=1000,gid=1000 \
+      $port_args \
       -v "$sock:$sock" \
       -v "$(pwd):/workspaces/" \
       -e SSH_AUTH_SOCK="$sock" \
