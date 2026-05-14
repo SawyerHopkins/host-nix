@@ -17,7 +17,7 @@ pkgs.writeShellScriptBin "pm-up" ''
     $podman exec -it "$name" bash
   else
     echo "Creating container: $name"
-    $podman build -t pm-dev:latest https://github.com/SawyerHopkins/podman-ts-dev.git
+    $podman build -t pm-dev:latest https://github.com/SawyerHopkins/podman-image-ts-dev.git
 
     port_args=""
     if [ -f .pm-ports ]; then
